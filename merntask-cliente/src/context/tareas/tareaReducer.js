@@ -1,13 +1,17 @@
-import Tarea from "../../components/tareas/Tarea"
+import { 
+  TAREAS_PROYECTO 
+} from '../../types';
 
-const TareasReducer = (state, action) => {
 
+export default (state, action) => {
   switch(action.type) {
+      case TAREAS_PROYECTO:
+          return {
+              ...state,
+              tareasproyecto: state.tareas.filter(tarea => tarea.proyectoId === action.payload)
+          }
 
-    default:
-      return state
+      default:
+          return state;
   }
-
 }
-
-export default TareasReducer;
