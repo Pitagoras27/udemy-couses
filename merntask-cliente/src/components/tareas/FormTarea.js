@@ -13,7 +13,7 @@ const FormTarea = () => {
     const { proyecto } = proyectosContext;
 
     const tareaContext = useContext(tareasContext);
-    const { errortarea, agregarTarea, validarTarea } = tareaContext;
+    const { errortarea, agregarTarea, validarTarea, obtenerTareas } = tareaContext;
 
     // Si no hay proyecto seleccionado
     if(!proyecto) return null;
@@ -33,13 +33,14 @@ const FormTarea = () => {
         if(nombre.trim() === '') {
             validarTarea()
             return
-        } 
+        }
 
         // agregar la nueva tarea
         tarea.proyectoId = proyectoActual.id;
         tarea.estado = false;
         agregarTarea(tarea)
 
+        obtenerTareas(proyectoActual.id)
         // reiniciar el formulario
         guardarTarea({
             nombre: ''
