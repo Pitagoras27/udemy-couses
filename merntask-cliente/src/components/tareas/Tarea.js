@@ -4,7 +4,7 @@ import proyectoContext from '../../context/proyectos/proyectoContext';
 
 const Tarea = ({tarea}) => {
     const tareasContext = useContext(tareaContext);
-    const { eliminarTarea, obtenerTareas } = tareasContext;
+    const { eliminarTarea, obtenerTareas, cambiaEstadoTarea } = tareasContext;
     const proyectosContext = useContext(proyectoContext);
     const { proyecto } = proyectosContext;
     const [ proyectoId ] = proyecto;
@@ -12,6 +12,15 @@ const Tarea = ({tarea}) => {
     const eliminarTask = id => {
         eliminarTarea(id)
         obtenerTareas(proyectoId.id)
+    }
+
+    const handleClick = tarea => {
+        if(tarea.estado) {
+            tarea.estado = false
+        } else {
+            tarea.estado = true
+        }
+        cambiaEstadoTarea(tarea)
     }
 
     return (
@@ -25,6 +34,7 @@ const Tarea = ({tarea}) => {
                         <button
                             type="button"
                             className="completo"
+                            onClick={() => handleClick(tarea)}
                         >Completo</button>
                     )
                 : 
@@ -32,6 +42,7 @@ const Tarea = ({tarea}) => {
                         <button
                             type="button"
                             className="incompleto"
+                            onClick={() => handleClick(tarea)}
                         >Incompleto</button>
                     )
                 }
