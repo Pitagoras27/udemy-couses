@@ -16,7 +16,7 @@ export default (state, action) => {
       case AGREGAR_TAREA:
           return {
               ...state,
-              tareas: [...state.tareas, action.payload],
+              tareas: [ action.payload, ...state.tareas ],
               errortarea: false,
           }
       case VALIDAR_TAREA:
@@ -25,7 +25,6 @@ export default (state, action) => {
               errortarea: true,
           }
       case ELIMINAR_TAREA:
-          console.log('---->>>>>', state.tareas.filter(tarea => tarea.id !== action.payload))
           return {
               ...state,
               tareas: state.tareas.filter(tarea => tarea.id !== action.payload)
