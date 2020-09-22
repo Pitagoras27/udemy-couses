@@ -26,12 +26,12 @@ const ListadoTareas = () => {
         eliminarProyecto(proyectoActual.id)
     }
 
-    return ( 
+    return (
         <Fragment>
             <h2>Proyecto: {proyectoActual.nombre} </h2>
 
             <ul className="listado-tareas">
-                {tareasproyecto.length === 0 
+                {tareasproyecto.length === 0
                     ? (<li className="tarea"><p>No hay tareas</p></li>)
                     :
                     <TransitionGroup>

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+import alertContext from '../../context/alertas/alertaContext';
 
 const NuevaCuenta = () => {
 
@@ -10,6 +12,9 @@ const NuevaCuenta = () => {
         password: '',
         confirmar: ''
     });
+
+    const alerts = useContext(alertContext);
+    const { alerta, mostrarAlerta } = alerts;
 
     // extraer de usuario
     const { nombre, email, password, confirmar } = usuario;
@@ -26,20 +31,25 @@ const NuevaCuenta = () => {
         e.preventDefault();
 
         // Validar que no haya campos vacios
-
+        if(nombre.trim() === '' || email.trim() === '' || password.trim() === '' || confirmar.trim() === '') {
+            mostrarAlerta('Todos los campos son necesarios', 'alerta-error');
+        }
 
         // Password minimo de 6 caracteres
-
+        if(password.length < 6) {
+            mostrarAlerta('La contraseña debe contar con mínimo 6 caracteres', 'alerta-error');
+        }
         // Los 2 passwords son iguales
-
+        if (password !== confirmar) {
+            mostrarAlerta('Las contraseñas no coinciden', 'alerta-error');
+        }
         // Pasarlo al action
 
     }
 
-
-
-    return ( 
+    return (
         <div className="form-usuario">
+            { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.mensaje}</div>) : null}
             <div className="contenedor-form sombra-dark">
                 <h1>Obtener una cuenta</h1>
 
@@ -48,7 +58,7 @@ const NuevaCuenta = () => {
                 >
                     <div className="campo-form">
                         <label htmlFor="nombre">Nombre</label>
-                        <input 
+                        <input
                             type="text"
                             id="nombre"
                             name="nombre"
@@ -60,7 +70,7 @@ const NuevaCuenta = () => {
 
                     <div className="campo-form">
                         <label htmlFor="email">Email</label>
-                        <input 
+                        <input
                             type="email"
                             id="email"
                             name="email"
@@ -72,7 +82,7 @@ const NuevaCuenta = () => {
 
                     <div className="campo-form">
                         <label htmlFor="password">Password</label>
-                        <input 
+                        <input
                             type="password"
                             id="password"
                             name="password"
@@ -84,7 +94,7 @@ const NuevaCuenta = () => {
 
                     <div className="campo-form">
                         <label htmlFor="confirmar">Confirmar Password</label>
-                        <input 
+                        <input
                             type="password"
                             id="confirmar"
                             name="confirmar"
