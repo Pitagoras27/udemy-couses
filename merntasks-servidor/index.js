@@ -1,11 +1,13 @@
 const express = require('express');
 const conectarDB = require('./config/db.js');
+const cors = require('cors');
 
 const app = express();
-conectarDB()
+conectarDB();
 
-const PORT = process.env.PORT || 4000;
-
+const PORT = process.env.PORT || 9000;
+ 
+app.use(cors());
 app.use(express.json({ extended: true }))
 
 // Middledwares de rutas
