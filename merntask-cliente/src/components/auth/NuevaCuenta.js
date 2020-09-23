@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthContext from '../../context/auth/authContext';
 import alertContext from '../../context/alertas/alertaContext';
 
-const NuevaCuenta = () => {
+const NuevaCuenta = props => {
 
     // State para iniciar sesión
     const [usuario, guardarUsuario] = useState({
@@ -17,7 +17,17 @@ const NuevaCuenta = () => {
     const alerts = useContext(alertContext);
     const auth = useContext(AuthContext);
     const { alerta, mostrarAlerta } = alerts;
-    const { registrarUsuario } = auth;
+    const { autenticado, mensaje, registrarUsuario } = auth;
+
+    useEffect(() => {
+        if(autenticado) {
+            props.history.push('/proyectos');
+        }
+        if(mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria)
+        }
+
+    }, [autenticado, mensaje]);
 
     // extraer de usuario
     const { nombre, email, password, confirmar } = usuario;
@@ -55,7 +65,8 @@ const NuevaCuenta = () => {
 
     return (
         <div className="form-usuario">
-            { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.mensaje}</div>) : null}
+            { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.mensaje}</div>) : null }
+
             <div className="contenedor-form sombra-dark">
                 <h1>Obtener una cuenta</h1>
 

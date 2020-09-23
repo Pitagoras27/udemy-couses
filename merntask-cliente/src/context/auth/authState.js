@@ -35,13 +35,19 @@ const AuthState = props => {
 
       dispatch({
         type: REGISTRO_EXITOSO,
-        payload: request.data
+        payload: request.data,
       });
 
     } catch(e) {
 
+      const alerta = {
+        msg: e.response.data.msg,
+        categoria: 'alerta-error'
+      }
+
       dispatch({
         type: REGISTRO_ERROR,
+        payload: alerta,
       })
     }
   }

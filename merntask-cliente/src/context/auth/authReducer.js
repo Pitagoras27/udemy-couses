@@ -14,11 +14,13 @@ export default (state, action) => {
       return {
         ...state,
         autenticado: true,
+        mensaje: null,
       }
     case REGISTRO_ERROR:
       return {
         ...state,
         autenticado: null,
+        mensaje: action.payload
       }
     default:
       return state;
