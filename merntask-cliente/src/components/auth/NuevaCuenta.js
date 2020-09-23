@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import AuthContext from '../../context/auth/authContext';
 import alertContext from '../../context/alertas/alertaContext';
 
 const NuevaCuenta = () => {
@@ -14,7 +15,9 @@ const NuevaCuenta = () => {
     });
 
     const alerts = useContext(alertContext);
+    const auth = useContext(AuthContext);
     const { alerta, mostrarAlerta } = alerts;
+    const { registrarUsuario } = auth;
 
     // extraer de usuario
     const { nombre, email, password, confirmar } = usuario;
@@ -33,18 +36,21 @@ const NuevaCuenta = () => {
         // Validar que no haya campos vacios
         if(nombre.trim() === '' || email.trim() === '' || password.trim() === '' || confirmar.trim() === '') {
             mostrarAlerta('Todos los campos son necesarios', 'alerta-error');
+            return;
         }
 
         // Password minimo de 6 caracteres
         if(password.length < 6) {
             mostrarAlerta('La contraseña debe contar con mínimo 6 caracteres', 'alerta-error');
+            return;
         }
         // Los 2 passwords son iguales
         if (password !== confirmar) {
             mostrarAlerta('Las contraseñas no coinciden', 'alerta-error');
+            return;
         }
         // Pasarlo al action
-
+        registrarUsuario({nombre, email, password})
     }
 
     return (
