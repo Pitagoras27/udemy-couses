@@ -3,6 +3,7 @@ import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 import requestApi from '../../config/axios';
+import tokenAuth from '../../config/token';
 
 import {
   REGISTRO_EXITOSO,
@@ -37,17 +38,38 @@ const AuthState = props => {
         type: REGISTRO_EXITOSO,
         payload: request.data,
       });
-
+      usuarioAutenticado();
     } catch(e) {
-
+      const typeError = (Array.isArray( e.response.data.errores))
+        ? e.response.data.errores[0].msg
+        : e.response.data.msg
       const alerta = {
-        msg: e.response.data.msg,
+        msg: typeError,
         categoria: 'alerta-error'
       }
 
       dispatch({
         type: REGISTRO_ERROR,
         payload: alerta,
+      })
+    }
+  }
+
+  const usuarioAutenticado = async () => {
+    const token = localStorage.getItem('token');
+    if(token) {
+      tokenAuth(token);
+    }
+
+    try {
+      const respuesta = await requestApi.get('/api/auth');
+      dispatch({
+        type: OBTENER_USUARIO,
+        payload: {}
+      })
+    } catch (error) {
+      dispatch({
+        type: LOGIN_ERROR,
       })
     }
   }
