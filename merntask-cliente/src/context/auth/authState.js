@@ -33,7 +33,6 @@ const AuthState = props => {
 
     try {
       const request = await requestApi.post('/api/usuarios/', data);
-
       dispatch({
         type: REGISTRO_EXITOSO,
         payload: request.data,
@@ -47,7 +46,6 @@ const AuthState = props => {
         msg: typeError,
         categoria: 'alerta-error'
       }
-
       dispatch({
         type: REGISTRO_ERROR,
         payload: alerta,
@@ -60,14 +58,14 @@ const AuthState = props => {
     if(token) {
       tokenAuth(token);
     }
-
     try {
       const respuesta = await requestApi.get('/api/auth');
       dispatch({
         type: OBTENER_USUARIO,
-        payload: {}
+        payload: respuesta.data.usuario
       })
     } catch (error) {
+      console.error('error--->', error.response);
       dispatch({
         type: LOGIN_ERROR,
       })
