@@ -59,15 +59,34 @@ const AuthState = props => {
       tokenAuth(token);
     }
     try {
-      const respuesta = await requestApi.get('/api/auth');
+      const request = await requestApi.get('/api/auth');
       dispatch({
         type: OBTENER_USUARIO,
-        payload: respuesta.data.usuario
+        payload: request.data.usuario
       })
     } catch (error) {
-      console.error('error--->', error.response);
       dispatch({
         type: LOGIN_ERROR,
+      })
+    }
+  }
+
+  const iniciarSesion = async datos => {
+    try {
+      const request = await requestApi.post('/api/auth', datos);
+      dispatch({
+        type: LOGIN_EXISTOSO,
+        payload: request.data,
+      })
+      usuarioAutenticado();
+    } catch (e) {
+      const alerta = {
+        msg: e.response.data.msg,
+        categoria: 'alerta-error'
+      }
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: alerta
       })
     }
   }
@@ -80,6 +99,7 @@ const AuthState = props => {
         usuario: state.usuario,
         mensaje: state.mensaje,
         registrarUsuario,
+        iniciarSesion,
       }}
     >
       {props.children}

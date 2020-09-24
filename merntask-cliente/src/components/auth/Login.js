@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+import authContext from '../../context/auth/authContext';
+import alertaContext from '../../context/alertas/alertaContext';
+
+const Login = props => {
+
+    const loginContext = useContext(authContext);
+    const { iniciarSesion, mensaje, autenticado } = loginContext;
+
+    const validationContext = useContext(alertaContext);
+    const { mostrarAlerta, alerta } = validationContext;
 
     // State para iniciar sesión
     const [usuario, guardarUsuario] = useState({
         email: '',
         password: ''
     });
+
+    useEffect(() => {
+        if(mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria)
+        }
+        if(autenticado) {
+            props.history.push('./proyectos')
+        }
+    }, [mensaje, autenticado])
 
     // extraer de usuario
     const { email, password } = usuario;
@@ -23,16 +41,19 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault();
 
-        // Validar que no haya campos vacios
+        // Validar que no haya campos vacíos
+        if(email.trim() === '' || password.trim() === '') {
+            mostrarAlerta('Todos los campos son obligatorios!', 'alerta-error')
+            return;
+        }
 
         // Pasarlo al action
-
+        iniciarSesion({ email, password })
     }
 
-
-
-    return ( 
+    return (
         <div className="form-usuario">
+            { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.mensaje}</div>) : null }
             <div className="contenedor-form sombra-dark">
                 <h1>Iniciar Sesión</h1>
 
@@ -41,7 +62,7 @@ const Login = () => {
                 >
                     <div className="campo-form">
                         <label htmlFor="email">Email</label>
-                        <input 
+                        <input
                             type="email"
                             id="email"
                             name="email"
@@ -53,7 +74,7 @@ const Login = () => {
 
                     <div className="campo-form">
                         <label htmlFor="password">Password</label>
-                        <input 
+                        <input
                             type="password"
                             id="password"
                             name="password"
@@ -75,5 +96,5 @@ const Login = () => {
         </div>
      );
 }
- 
+
 export default Login;
