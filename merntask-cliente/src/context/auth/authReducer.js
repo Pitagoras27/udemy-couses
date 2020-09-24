@@ -20,15 +20,21 @@ export default (state, action) => {
     case OBTENER_USUARIO:
       return {
         ...state,
+        autenticado: true,
         usuario: action.payload
       }
     case REGISTRO_ERROR:
     case LOGIN_ERROR:
-      console.log('action.payload->', action.payload)
       return {
         ...state,
         autenticado: null,
         mensaje: action.payload
+      }
+    case CERRAR_SESION:
+      return {
+        ...state,
+        usuario: null,
+        autenticado: null
       }
     default:
       return state;
