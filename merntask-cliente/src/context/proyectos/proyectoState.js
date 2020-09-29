@@ -1,19 +1,16 @@
 import React, { useReducer } from 'react';
 
-import uuid from 'uuid';
-
+import clienteAxios from '../../config/axios';
 import proyectoContext from './proyectoContext';
 import proyectoReducer from './proyectoReducer';
-import { 
-    FORMULARIO_PROYECTO, 
+import {
+    FORMULARIO_PROYECTO,
     OBTENER_PROYECTOS,
     AGREGAR_PROYECTO,
     VALIDAR_FORMULARIO,
     PROYECTO_ACTUAL,
     ELIMINAR_PROYECTO
 } from '../../types';
-
-
 
 const ProyectoState = props => {
 
@@ -49,14 +46,11 @@ const ProyectoState = props => {
         })
     }
 
-    // Agregar nuevo proyecto
-    const agregarProyecto = proyecto => {
-        proyecto.id = uuid.v4();
-
-        // Insertar el proyecto en el state
+    const agregarProyecto = async (data, proyecto) => {
+        const respuesta = await clienteAxios.post('/api/proyectos', data);
         dispatch({
             type: AGREGAR_PROYECTO,
-            payload: proyecto
+            payload: respuesta.data
         })
     }
 

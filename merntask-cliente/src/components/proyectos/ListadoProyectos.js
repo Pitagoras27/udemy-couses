@@ -18,24 +18,20 @@ const ListadoProyectos = () => {
     // revisar si proyectos tiene contenido
     if(proyectos.length === 0 ) return <p>No hay proyectos, comienza creando uno</p>;
 
-
-
-    return ( 
-
+    return (
         <ul className="listado-proyectos">
             <TransitionGroup>
                 {proyectos.map(proyecto => (
                     <CSSTransition
                         classNames="tarea"
                         timeout={200}
-                        key={proyecto.id}
+                        key={proyecto._id}
                     >
                         <Proyecto proyecto={proyecto} />
                     </CSSTransition>
                 ))}
             </TransitionGroup>
         </ul>
-     );
+    );
 }
- 
 export default ListadoProyectos;
