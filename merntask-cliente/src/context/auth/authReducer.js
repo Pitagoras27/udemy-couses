@@ -15,12 +15,14 @@ export default (state, action) => {
       return {
         ...state,
         autenticado: true,
+        cargando: false,
         mensaje: null,
       }
     case OBTENER_USUARIO:
       return {
         ...state,
         autenticado: true,
+        cargando: false,
         usuario: action.payload
       }
     case REGISTRO_ERROR:
