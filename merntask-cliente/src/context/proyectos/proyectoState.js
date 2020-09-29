@@ -9,7 +9,8 @@ import {
     AGREGAR_PROYECTO,
     VALIDAR_FORMULARIO,
     PROYECTO_ACTUAL,
-    ELIMINAR_PROYECTO
+    ELIMINAR_PROYECTO,
+    MOSTRAR_ALERTA
 } from '../../types';
 
 const ProyectoState = props => {
@@ -25,7 +26,8 @@ const ProyectoState = props => {
         proyectos : [],
         formulario : false,
         errorformulario: false,
-        proyecto: null
+        proyecto: null,
+        mensaje: null,
     }
 
     // Dispatch para ejecutar las acciones
@@ -40,14 +42,26 @@ const ProyectoState = props => {
 
     // Obtener los proyectos
     const obtenerProyectos = async () => {
-        const respuesta = await clienteAxios.get('/api/proyectos');
-        dispatch({
-            type: OBTENER_PROYECTOS,
-            payload: respuesta.data.proyectos
-        })
+        try {
+            const respuesta = await clienteAxios.get('/api/proyectos');
+            dispatch({
+                type: OBTENER_PROYECTOS,
+                payload: respuesta.data.proyectos
+            })
+        } catch (error) {
+            const alerta = {
+                msg: 'Hubo un error',
+                categoria: 'alerta-error'
+            }
+
+            dispatch({
+                type: MOSTRAR_ALERTA,
+                payload: alerta
+            })
+        }
     }
 
-    const agregarProyecto = async (data, proyecto) => {
+    const agregarProyecto = async (data) => {
         try {
             const respuesta = await clienteAxios.post('/api/proyectos', data);
             dispatch({
@@ -55,7 +69,15 @@ const ProyectoState = props => {
                 payload: respuesta.data
             })
         } catch (error) {
-            console.log(error)
+            const alerta = {
+                msg: 'Hubo un error',
+                categoria: 'alerta-error'
+            }
+
+            dispatch({
+                type: MOSTRAR_ALERTA,
+                payload: alerta
+            })
         }
     }
 
@@ -68,14 +90,21 @@ const ProyectoState = props => {
 
     const eliminarProyecto = async proyectoId => {
         try {
-            const respuesta = await clienteAxios.delete(`/api/proyectos/${proyectoId}`);
-            console.log(respuesta, '<---respuesta')
+            await clienteAxios.delete(`/api/proyectos/${proyectoId}`);
             dispatch({
                 type: ELIMINAR_PROYECTO,
                 payload: proyectoId
             })
         } catch (error) {
-            console.log(error)
+            const alerta = {
+                msg: 'Hubo un error',
+                categoria: 'alerta-error'
+            }
+
+            dispatch({
+                type: MOSTRAR_ALERTA,
+                payload: alerta
+            })
         }
     }
 
@@ -95,6 +124,7 @@ const ProyectoState = props => {
                 formulario: state.formulario,
                 errorformulario: state.errorformulario,
                 proyecto: state.proyecto,
+                mensaje: state.mensaje,
                 mostrarFormulario,
                 obtenerProyectos,
                 agregarProyecto,
@@ -105,7 +135,6 @@ const ProyectoState = props => {
         >
             {props.children}
         </proyectoContext.Provider>
-        
     )
 }
 

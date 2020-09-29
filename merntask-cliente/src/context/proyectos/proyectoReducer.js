@@ -1,10 +1,11 @@
-import { 
-    FORMULARIO_PROYECTO, 
+import {
+    FORMULARIO_PROYECTO,
     OBTENER_PROYECTOS,
     AGREGAR_PROYECTO,
     VALIDAR_FORMULARIO,
     PROYECTO_ACTUAL,
     ELIMINAR_PROYECTO,
+    MOSTRAR_ALERTA,
 } from '../../types';
 
 
@@ -43,6 +44,12 @@ export default (state, action) => {
                 proyectos: state.proyectos.filter(proyecto => proyecto._id !== action.payload ),
                 proyecto: null
             }
+        case MOSTRAR_ALERTA:
+            return {
+                ...state,
+                mensaje: action.payload,
+            }
+
         default:
             return state;
     }
