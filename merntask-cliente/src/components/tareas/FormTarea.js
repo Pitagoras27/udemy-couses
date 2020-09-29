@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react';
-import uuid from 'uuid';
 import proyectoContext from '../../context/proyectos/proyectoContext';
 import tareasContext from '../../context/tareas/tareaContext';
 
@@ -50,10 +49,10 @@ const FormTarea = () => {
         if(tareaseleccionada) {
             actualizarTarea(tarea)
         } else {
-            tarea.id = uuid.v4();
-            tarea.proyectoId = proyectoActual.id;
-            tarea.estado = false;
+            tarea.proyecto = proyectoActual._id;
             agregarTarea(tarea)
+            console.log('tarea-->', tarea);
+            return;
         }
 
         obtenerTareas(proyectoActual.id)
@@ -63,11 +62,11 @@ const FormTarea = () => {
         })
     }
 
-    return ( 
+    return (
         <div className="formulario">
             <form onSubmit={onSubmit} >
                 <div className="contenedor-input">
-                    <input 
+                    <input
                         type="text"
                         className="input-text"
                         placeholder="Nombre Tarea..."

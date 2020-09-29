@@ -14,13 +14,13 @@ export default (state, action) => {
         case TAREAS_PROYECTO:
             return {
                 ...state,
-                tareasproyecto: state.tareas.filter(tarea => tarea.proyectoId === action.payload),
+                tareasproyecto: state.tareasproyecto.filter(tarea => tarea.proyectoId === action.payload),
                 tareaseleccionada: null,
             }
         case AGREGAR_TAREA:
             return {
                 ...state,
-                tareas: [ action.payload, ...state.tareas ],
+                tareasproyecto: [ action.payload, ...state.tareasproyecto ],
                 errortarea: false,
             }
         case VALIDAR_TAREA:
@@ -31,13 +31,13 @@ export default (state, action) => {
         case ELIMINAR_TAREA:
             return {
                 ...state,
-                tareas: state.tareas.filter(tarea => tarea.id !== action.payload)
+                tareasproyecto: state.tareasproyecto.filter(tarea => tarea.id !== action.payload)
             }
         case ESTADO_TAREA:
         case ACTUALIZAR_TAREA:
             return {
                 ...state,
-                tareas: state.tareas.map(tarea => tarea.id === action.payload.id ? action.payload : tarea),
+                tareasproyecto: state.tareasproyecto.map(tarea => tarea.id === action.payload.id ? action.payload : tarea),
             }
         case TAREA_ACTUAL:
             return {
