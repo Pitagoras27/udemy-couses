@@ -27,11 +27,17 @@ const TareaState = props => {
     // Crear las funciones
 
     // Obtener las tareas de un proyecto
-    const obtenerTareas = proyectoId => {
-        dispatch({
-            type: TAREAS_PROYECTO,
-            payload: proyectoId
-        })
+    const obtenerTareas = async proyecto => {
+        try {
+            const respuesta = await clienteAxios.get('/api/tareas', { params: { proyecto }})
+
+            dispatch({
+                type: TAREAS_PROYECTO,
+                payload: respuesta.data.tareas
+            })
+        } catch (error) {
+            console.log(error, '<---')
+        }
     }
 
     // Agregar una tarea al proyecto seleccionado

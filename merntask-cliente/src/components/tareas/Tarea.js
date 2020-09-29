@@ -26,7 +26,7 @@ const Tarea = ({tarea}) => {
     const handleEdit = tarea => {
         guardarTareaActual(tarea)
     }
-    console.log(tarea, '<<<<<<<<<<----')
+
     return (
         <li className="tarea sombra">
             <p>{tarea.nombre} </p>

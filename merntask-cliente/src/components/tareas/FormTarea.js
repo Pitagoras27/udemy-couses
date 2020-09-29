@@ -51,8 +51,6 @@ const FormTarea = () => {
         } else {
             tarea.proyecto = proyectoActual._id;
             agregarTarea(tarea)
-            console.log('tarea-->', tarea);
-            return;
         }
 
         obtenerTareas(proyectoActual.id)
