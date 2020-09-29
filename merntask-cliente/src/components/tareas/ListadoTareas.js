@@ -23,7 +23,7 @@ const ListadoTareas = () => {
 
     // Elimina un proyecto
     const onClickEliminar = () => {
-        eliminarProyecto(proyectoActual.id)
+        eliminarProyecto(proyectoActual._id)
     }
 
     return (
@@ -58,7 +58,7 @@ const ListadoTareas = () => {
                 onClick={onClickEliminar}
             >Eliminar Proyecto &times;</button>
         </Fragment>
-     );
+    );
 }
- 
+
 export default ListadoTareas;

@@ -48,11 +48,15 @@ const ProyectoState = props => {
     }
 
     const agregarProyecto = async (data, proyecto) => {
-        const respuesta = await clienteAxios.post('/api/proyectos', data);
-        dispatch({
-            type: AGREGAR_PROYECTO,
-            payload: respuesta.data
-        })
+        try {
+            const respuesta = await clienteAxios.post('/api/proyectos', data);
+            dispatch({
+                type: AGREGAR_PROYECTO,
+                payload: respuesta.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Valida el formulario por errores
@@ -62,11 +66,17 @@ const ProyectoState = props => {
         })
     }
 
-    const eliminarProyecto = proyectoId => {
-        dispatch({
-            type: ELIMINAR_PROYECTO,
-            payload: proyectoId
-        })
+    const eliminarProyecto = async proyectoId => {
+        try {
+            const respuesta = await clienteAxios.delete(`/api/proyectos/${proyectoId}`);
+            console.log(respuesta, '<---respuesta')
+            dispatch({
+                type: ELIMINAR_PROYECTO,
+                payload: proyectoId
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Selecciona el Proyecto que el usuario dio click
